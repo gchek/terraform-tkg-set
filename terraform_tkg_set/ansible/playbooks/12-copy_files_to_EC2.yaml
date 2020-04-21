@@ -1,0 +1,65 @@
+---
+#=================================================
+#   add TKG EC2 host to inventory
+#=================================================
+- name: Add host TKG EC2
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - ../credentials.yaml
+    - ../outputs.json
+  tasks:
+    - add_host:
+        hostname: TKG_EC2
+        ansible_ssh_host: "{{ TKG_IP.value }}"
+        ansible_ssh_user: ec2-user
+        ansible_ssh_private_key_file: "{{aws_dir}}{{key_pair.value}}.pem"
+
+# =============================================================
+#   Transfer files to TKG EC2 Host
+# =============================================================
+- name: transfer files to TKG EC2 Host
+  hosts: TKG_EC2
+  gather_facts: false
+  vars_files:
+    - ../credentials.yaml
+    - ../outputs.json
+#  vars:
+#    ansible_ssh_private_key_file: "{{aws_dir}}{{key_pair.value}}.pem"
+  tasks:
+    - name: Copy file "ouputs.json"
+      copy:
+        src: ../outputs.json
+        dest: /home/ec2-user
+
+    - name: Copy file "deploy_templates.sh"
+      copy:
+        src: ../files/deploy_templates.sh
+        dest: /home/ec2-user
+        mode: 0755
+
+    - name: Copy file "config.sh"
+      copy:
+        src: ../files/config.sh
+        dest: /home/ec2-user
+        mode: 0755
+
+    - name: Copy file "config.ini"
+      copy:
+        src: ../files/config.ini
+        dest: /home/ec2-user
+        mode: 0664
+
+        
+
+
+
+
+
+
+
+
+
+
+

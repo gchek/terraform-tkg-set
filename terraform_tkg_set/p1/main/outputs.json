@@ -1,0 +1,77 @@
+{
+  "GOVC_vc_url": {
+    "sensitive": false,
+    "type": "string",
+    "value": "https://vcenter.sddc-34-213-88-224.vmwarevmc.com/sdk"
+  },
+  "SDDC_mgmt": {
+    "sensitive": false,
+    "type": "string",
+    "value": "10.10.10.0/23"
+  },
+  "TKG_demo": {
+    "sensitive": false,
+    "type": "string",
+    "value": "VMC-TKG-Demo-Appliance_1.0.0"
+  },
+  "TKG_haproxy": {
+    "sensitive": false,
+    "type": "string",
+    "value": "photon-3-capv-haproxy-v0.6.2+vmware.2"
+  },
+  "TKG_net_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "tkg-network"
+  },
+  "TKG_photon": {
+    "sensitive": false,
+    "type": "string",
+    "value": "photon-3-v1.17.3+vmware.1"
+  },
+  "TKG_public_IP": {
+    "sensitive": false,
+    "type": "string",
+    "value": "54.185.106.187"
+  },
+  "VM1_DNS": {
+    "sensitive": false,
+    "type": "string",
+    "value": "ec2-34-217-31-253.us-west-2.compute.amazonaws.com"
+  },
+  "VM1_IP": {
+    "sensitive": false,
+    "type": "string",
+    "value": "34.217.31.253"
+  },
+  "cloud_password": {
+    "sensitive": true,
+    "type": "string",
+    "value": "BSkorupL81!W+KP"
+  },
+  "cloud_username": {
+    "sensitive": false,
+    "type": "string",
+    "value": "cloudadmin@vmc.local"
+  },
+  "proxy_url": {
+    "sensitive": false,
+    "type": "string",
+    "value": "nsx-34-213-88-224.rp.vmwarevmc.com/vmc/reverse-proxy/api/orgs/7421a286-f7bf-4f34-8567-779b83d75fb5/sddcs/22d6d81c-3f0f-4573-8487-d969f2c1b517"
+  },
+  "sddc_subnet": {
+    "sensitive": false,
+    "type": "string",
+    "value": "subnet-0affcb21fcbf0db2e"
+  },
+  "vc_public_IP": {
+    "sensitive": false,
+    "type": "string",
+    "value": "34.213.88.224"
+  },
+  "vc_url": {
+    "sensitive": false,
+    "type": "string",
+    "value": "vcenter.sddc-34-213-88-224.vmwarevmc.com"
+  }
+}

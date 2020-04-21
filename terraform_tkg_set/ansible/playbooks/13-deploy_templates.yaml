@@ -1,0 +1,40 @@
+---
+#=================================================
+#   add TKG EC2 host
+#=================================================
+- name: Add host TKG EC2
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - ../credentials.yaml
+    - ../outputs.json
+  tasks:
+    - add_host:
+        hostname: TKG_EC2
+        ansible_ssh_host: "{{ TKG_IP.value }}"
+        ansible_ssh_user: ec2-user
+        ansible_ssh_private_key_file: "{{aws_dir}}{{key_pair.value}}.pem"
+
+# =================================================
+#   Sync templates from S3 and deploy
+# =================================================
+- name: Get templates from S3
+  hosts: TKG_EC2
+  gather_facts: true
+  vars_files:
+    - ../credentials.yaml
+    - ../outputs.json
+  environment:
+    AWS_ACCESS_KEY_ID:  "{{ lookup('env','TF_VAR_access_key') }}"
+    AWS_SECRET_ACCESS_KEY:  "{{ lookup('env','TF_VAR_secret_key') }}"
+  tasks:
+    - name: Sync templates from S3 using the AWS CLI, deploy in vCenter and install TKG binaries
+      shell: |
+        aws s3 sync s3://{{ TKG_S3_bucket.value}} .
+        ./deploy_templates.sh
+        gunzip "{{ TKG_EC2.value }}".gz
+        sudo mv "{{ TKG_EC2.value }}" /usr/bin/tkg
+        sudo chmod 755 /usr/bin/tkg
+        tkg get mc
+        ./config.sh

@@ -1,0 +1,39 @@
+---
+#=================================================
+#   add TKG EC2 host
+#=================================================
+- name: Add host TKG EC2
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  vars_files:
+    - ../credentials.yaml
+    - ../outputs.json
+  tasks:
+    - add_host:
+        hostname: TKG_EC2
+        ansible_ssh_host: "{{ TKG_IP.value }}"
+        ansible_ssh_user: ec2-user
+        ansible_ssh_private_key_file: "{{aws_dir}}{{key_pair.value}}.pem"
+# =================================================
+#   Deploy TKG clusters
+# =================================================
+- name: deploy TKG clusters
+  hosts: TKG_EC2
+  gather_facts: False
+  vars_files:
+    - ../credentials.yaml
+    - ../outputs.json
+
+  tasks:
+    - name: Ensure docker daemon is running
+      service:
+        name: docker
+        state: started
+      become: true
+    - name: Deploy TKG clusters - this task will take 20 mins - check VMC vCenter
+      shell: |
+        yes | tkg init  --infrastructure=vsphere
+        tkg create cluster --worker-machine-count=4 --plan=dev tkg-cluster-01
+
+

@@ -1,0 +1,27 @@
+---
+- name: Read in AWS Access Key and Secret Key from ~/.aws/credentials file
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - ../credentials.yaml
+
+  #=================================================
+  # Create json file for ansible variables
+  #=================================================
+  tasks:
+    - name: export Terraform parameters in JSON format
+      shell: |
+        terraform output -state=../../phase1.tfstate -json > ../outputs.json
+    - name:
+      debug:
+        msg:
+          - "Terraform Parameters now in json format"
+
+
+
+
+
+                  
+
+        

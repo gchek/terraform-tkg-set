@@ -1,0 +1,16 @@
+---
+
+- name: open Terminal windows
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - ../outputs.json
+    - ../credentials.yaml
+  #===============================
+  #   Open Terminal window for EC2
+  #===============================
+  tasks:
+  - name: open terminal
+    shell: | 
+        osascript -e 'tell app "Terminal" to do script "ssh -oStrictHostKeyChecking=no -i '{{aws_dir}}{{key_pair.value}}.pem' ec2-user@{{ TKG_IP.value }}"'
